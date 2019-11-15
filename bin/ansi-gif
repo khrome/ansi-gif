@@ -1,0 +1,48 @@
+#!/usr/bin/env node
+var argv;
+var yargs = require('yargs');
+var Image = require('ascii-art-image');
+var Color = require('ascii-art-ansi/color');
+var Gif = require('../gif');
+
+yargs.usage('Usage: $0 [options] <target>')
+yargs.demand(1)
+    .example('$0 /path/to/my.gif ', 'render the gif')
+    .example('$0  ~/Desktop/nyan.gif -b 4', '4bit nyan cat on the desktop')
+    .example('$0  ~/Desktop/nyan.gif -a ultra-wide -w 100 -b 8 -d rankedChannel', '8bit nyan cat on the desktop')
+    .example('$0  ~/Desktop/nyan.gif -b 32', '32bit nyan cat on the desktop')
+    .alias('a', 'alphabet')
+        .nargs('a', 1)
+        .choices('a', Object.keys(Image.valueScales))
+        .describe('a', 'The character set to use when rendering this gif')
+    .alias('b', 'bit-depth')
+        .nargs('b', 1)
+        .choices('b', [4, 8, 32])
+        .describe('b', 'the number of colors to use')
+    .alias('w', 'width')
+        .nargs('w', 1)
+        .describe('w', 'the width of the output')
+    .alias('d', 'difference')
+        .nargs('d', 1)
+        .choices('d', Object.keys(Color.distances))
+        .describe('d', 'the color difference algorithm to use in 8bit mode')
+.help('h')
+    .alias('h', 'help')
+    .epilog('©2019 - Abbey Hawk Sparrow');
+argv = yargs.argv;
+
+var target = argv._.pop();
+
+var options = {
+    'alphabet' : argv.a,
+    'width' : argv.w,
+    'colorMatching' : argv.d,
+    '4bit' : argv.b === 4,
+    '8bit' : argv.b === 8,
+    '32bit' : argv.b === 32,
+    'file' : target
+};
+var gif = new Gif(options);
+gif.load(function(){}, function(){
+    gif.play();
+});

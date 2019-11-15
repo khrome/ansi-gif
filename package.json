@@ -1,0 +1,43 @@
+{
+  "name": "ansi-gif",
+  "version": "0.0.1",
+  "homepage": "https://github.com/khrome/ansi-gif",
+  "main": "gif.js",
+  "description": "View animated GIFs in your terminal",
+  "keywords": [
+    "ascii",
+    "ansi",
+    "command-line",
+    "xterm",
+    "shell",
+    "256",
+    "rgb",
+    "animation",
+    "animated",
+    "gif",
+    "image",
+    "cli",
+    "console",
+    "terminal",
+  ],
+  "author": "Abbey Hawk Sparrow <@khrome> (http://patternweaver.com)",
+  "contributors": [],
+  "bugs": {
+    "url": "https://github.com/khrome/ansi-gif/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/khrome/ansi-gif.git"
+  },
+  "bin": "./bin/ansi-gif",
+  "dependencies": {
+    "ascii-art-ansi": "^1.1.0",
+    "ascii-art-image": "^1.0.1",
+    "async": "^3.1.0",
+    "canvas": "^2.6.0",
+    "concat-frames": "^1.0.3",
+    "gif-stream": "^1.1.0",
+    "yargs": "^14.2.0"
+  }
+}
