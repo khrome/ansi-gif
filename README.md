@@ -2,6 +2,7 @@ ansi-gif
 ========
 
 View gifs in your terminal
+
 ![nyan-cat](Samples/nyan.gif)
 
 Installation
