@@ -1,6 +1,9 @@
 ansi-gif
 ========
 
+[![NPM version](https://img.shields.io/npm/v/ansi-gif.svg)]()
+[![npm](https://img.shields.io/npm/dt/ansi-gif.svg)]()
+
 View gifs in your terminal
 
 ![nyan-cat](Samples/nyan.gif)
