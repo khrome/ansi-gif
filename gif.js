@@ -50,7 +50,12 @@ AnsiGif.prototype.load = function(progress, complete){
                 if(err) return console.log(err);
                 renderedFrames[index] = image;
                 count++;
-                done();
+                setTimeout(function(){
+                    progress(count, ob.frames.length);
+                }, 0);
+                setTimeout(function(){
+                    done();
+                }, 0);
             });
         }, function(){
             ob.rendered = renderedFrames;
@@ -67,6 +72,7 @@ AnsiGif.prototype.play = function(){
     var ob = this
     //todo: play based on gif config
     setInterval(function(){
+        ob.rendered[frameNum]?ob.rendered[frameNum].split("\n").length:0;
         if(first) first = false;
         else console.log('\033['+(numLines+1)+'Am');
         console.log(ob.rendered[frameNum]+'\033[0m');

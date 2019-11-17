@@ -3,6 +3,7 @@ var argv;
 var yargs = require('yargs');
 var Image = require('ascii-art-image');
 var Color = require('ascii-art-ansi/color');
+var Gauge = require("gauge");
 var Gif = require('../gif');
 
 yargs.usage('Usage: $0 [options] <target>')
@@ -42,7 +43,12 @@ var options = {
     '32bit' : argv.b === 32,
     'file' : target
 };
+var gauge = new Gauge()
 var gif = new Gif(options);
-gif.load(function(){}, function(){
+gauge.show('Loading... ', 0.1)
+gif.load(function(current, total){
+    gauge.show('Loading ('+current+'/'+total+') Frames', current/total)
+}, function(){
+    gauge.hide()
     gif.play();
 });

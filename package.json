@@ -1,6 +1,6 @@
 {
   "name": "ansi-gif",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/khrome/ansi-gif",
   "main": "gif.js",
   "description": "View animated GIFs in your terminal",
@@ -33,11 +33,26 @@
   "bin": "./bin/ansi-gif",
   "dependencies": {
     "ascii-art-ansi": "^1.1.0",
-    "ascii-art-image": "^1.0.1",
+    "ascii-art-image": "^1.0.2",
     "async": "^3.1.0",
     "canvas": "^2.6.0",
     "concat-frames": "^1.0.3",
+    "gauge": "^2.7.4",
     "gif-stream": "^1.1.0",
     "yargs": "^14.2.0"
+  },
+  "scripts": {
+    "nyan-cat": "./bin/ansi-gif -b 8 -d ratioDistance -a ultra-wide ./node_modules/ascii-art-docs/GIFs/nyan.gif",
+    "mj-popcorn":"./bin/ansi-gif -b 4 -a hatching ./node_modules/ascii-art-docs/GIFs/mj-popcorn.gif",
+    "beetlejuice-caseworker":"./bin/ansi-gif -b 8 -d rankedChannel -a hatching ./node_modules/ascii-art-docs/GIFs/beetlejuice-caseworker.gif",
+    "afro-ninja":"./bin/ansi-gif -b 8 -d rankedChannel -a ultra-wide ./node_modules/ascii-art-docs/GIFs/afro-ninja.gif",
+    "peanuts":"./bin/ansi-gif -b 8 -d classicByValue -a ultra-wide ./node_modules/ascii-art-docs/GIFs/pean.gif",
+    "geometry":"./bin/ansi-gif -b 8 -d classicByValue -a ultra-wide ./node_modules/ascii-art-docs/GIFs/geo.gif",
+    "maxell":"./bin/ansi-gif -b 8 -d classicByValue -a ultra-wide ./node_modules/ascii-art-docs/GIFs/random-hero.gif",
+    "moon":"./bin/ansi-gif -b 8 -d classicByValue -a ultra-wide ./node_modules/ascii-art-docs/GIFs/moon.gif",
+    "mr-sparkle":"./bin/ansi-gif -b 8 -d rankedChannel -a variant3 ./node_modules/ascii-art-docs/GIFs/sparkle.gif"
+  },
+  "devDependencies": {
+    "ascii-art-docs": "^0.0.1"
   }
 }
