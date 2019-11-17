@@ -48,7 +48,7 @@
     "afro-ninja":"./bin/ansi-gif -b 8 -d rankedChannel -a ultra-wide ./node_modules/ascii-art-docs/GIFs/afro-ninja.gif",
     "peanuts":"./bin/ansi-gif -b 8 -d classicByValue -a ultra-wide ./node_modules/ascii-art-docs/GIFs/pean.gif",
     "geometry":"./bin/ansi-gif -b 8 -d classicByValue -a ultra-wide ./node_modules/ascii-art-docs/GIFs/geo.gif",
-    "maxell":"./bin/ansi-gif -b 8 -d classicByValue -a ultra-wide ./node_modules/ascii-art-docs/GIFs/random-hero.gif",
+    "maxell":"./bin/ansi-gif -b 8 -d classicByValue -a ultra-wide ./node_modules/ascii-art-docs/GIFs/rh.gif",
     "moon":"./bin/ansi-gif -b 8 -d classicByValue -a ultra-wide ./node_modules/ascii-art-docs/GIFs/moon.gif",
     "mr-sparkle":"./bin/ansi-gif -b 8 -d rankedChannel -a variant3 ./node_modules/ascii-art-docs/GIFs/sparkle.gif"
   },

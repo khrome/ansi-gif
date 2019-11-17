@@ -5,6 +5,8 @@ View gifs in your terminal
 
 ![nyan-cat](Samples/nyan.gif)
 
+Currently only supports gifs that use full frame rendering. subframe support coming soon™
+
 Installation
 ------------
 
@@ -41,5 +43,28 @@ Examples:
 
 Examples
 --------
+try a few of the built in samples like:
+
+`npm run mj-popcorn`
 
 ![thriller-popcorn](Samples/thriller-popcorn.gif)
+
+`npm run moon`
+
+`npm run mr-sparkle`
+
+`npm run maxell`
+
+`npm run nyan-cat`
+
+`npm run beetlejuice-caseworker`
+
+`npm run afro-ninja`
+
+`npm run peanuts`
+
+`npm run geometry`
+
+Enjoy,
+
+- Abbey Hawk Sparrow
