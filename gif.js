@@ -1,6 +1,7 @@
 var asynk = require('async');
 var Color = require('ascii-art-ansi/color');
 var Image = require('ascii-art-image');
+var request = require('request');
 
 //Color.is256 = true; //also supports .isTrueColor if your terminal does
 //Color.useDistance('closestByIntensity');
@@ -30,7 +31,11 @@ function AnsiGif(options){
         Color.useDistance(options.colorMatching);
     }
     this.options = options;
-    this.stream = fs.createReadStream(options.file);
+    if(options.file.indexOf('http') === 0){
+        this.stream = request.get(options.file)
+    }else{
+        this.stream = fs.createReadStream(options.file);
+    }
 }
 
 AnsiGif.prototype.load = function(progress, complete){
@@ -40,13 +45,75 @@ AnsiGif.prototype.load = function(progress, complete){
         var renderedFrames = [];
         progress(1,2);
         var count = 0;
-        asynk.eachOfLimit(this.frames, 2, function(frame, index, done){
+        var last;
+        var height;
+        var width;
+        asynk.eachOfLimit(this.frames, 1, function(frame, index, done){
+            if(!height) height = frame.height;
+            if(!width) width = frame.width;
+            var last
             var image = new Image({
                 width : ob.options.width || 80,
-                imagePixelFrame : frame,
-                alphabet : ob.options.alphabet || 'variant4'
+                alphabet : ob.options.alphabet || 'variant4',
+                loader : function(image, setAspectRatio, Canvas, Image){
+                    setAspectRatio(height/width);
+                    if(frame.x || frame.y){
+                        var canvas = new Canvas(height, width);
+                        var context = canvas.getContext('2d');
+                        if(last){
+                            context.putImageData(
+                                last, 0, 0
+                            );
+                        }
+                        var imageData = context.getImageData(
+                            (frame.x || 0),
+                            (frame.y || 0),
+                            (frame.width || undefined),
+                            (frame.height || undefined)
+                        );
+                        var data = imageData.data;
+                        var len = frame.width * frame.height;
+                        var offset;
+                        var pixset;
+                        for (var i=0; i < len;i += 4) {
+                            offset = i * 4;
+                            pixset = i * 3;
+                            data[offset] = frame.pixels.readUInt8(pixset);
+                            data[offset+1] = frame.pixels.readUInt8(pixset+1);
+                            data[offset+2] = frame.pixels.readUInt8(pixset+2);
+                            data[offset+3] = 255;
+                        }
+                        context.putImageData(
+                            imageData,
+                            (frame.x || 0),
+                            (frame.y || 0)
+                        );
+                        last = imageData;
+                        return {context, canvas};
+                    }else{
+                        var canvas = new Canvas(frame.width, frame.height);
+                        var context = canvas.getContext('2d');
+                        var dataContext = context.getImageData(0,0,frame.width, frame.height);
+                        var imageData = dataContext.data;
+                        var len = frame.width * frame.height;
+                        var offset;
+                        var pixset;
+                        for (var i=0; i < len;i += 4) {
+                            offset = i * 4;
+                            pixset = i * 3;
+                            imageData[offset] = frame.pixels.readUInt8(pixset);
+                            imageData[offset+1] = frame.pixels.readUInt8(pixset+1);
+                            imageData[offset+2] = frame.pixels.readUInt8(pixset+2);
+                            imageData[offset+3] = 255;
+                        }
+                        last = dataContext;
+                        context.putImageData(dataContext, 0, 0);
+                        return {context, canvas};
+                    }
+                }
             });
-            image.write(function(err, image){
+            image.write(function(err, image, context2d){
+                last = context2d;
                 if(err) return console.log(err);
                 renderedFrames[index] = image;
                 count++;
