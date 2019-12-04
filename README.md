@@ -4,11 +4,15 @@ ansi-gif
 [![NPM version](https://img.shields.io/npm/v/ansi-gif.svg)]()
 [![npm](https://img.shields.io/npm/dt/ansi-gif.svg)]()
 
-View gifs in your terminal
+View gifs in your terminal. 100% JS, no ffmpeg.
 
 ![nyan-cat](Samples/nyan.gif)
 
-Currently only supports gifs that use full frame rendering. subframe support coming soon™
+Supports full frame and subframe rendering™
+
+Given that this is a new library and there are many configurations of GIFs out there, we may not catch every edge case. Please save any example files you have with issues (and file them)!
+
+As simple as: `ansi-gif <file or url>`
 
 Installation
 ------------
@@ -52,19 +56,23 @@ try a few of the built in samples like:
 
 ![thriller-popcorn](Samples/thriller-popcorn.gif)
 
-`npm run moon`
-
 `npm run mr-sparkle`
 
 `npm run maxell`
 
 `npm run nyan-cat`
 
+![nyan-cat](Samples/nyan.gif)
+
 `npm run beetlejuice-caseworker`
 
 `npm run afro-ninja`
 
 `npm run peanuts`
+
+`npm run moon`
+
+![moon](https://github.com/khrome/ansi-gif/raw/master/Samples/moon.gif)
 
 `npm run geometry`
 
