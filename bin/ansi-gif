@@ -23,6 +23,25 @@ yargs.demand(1)
     .alias('w', 'width')
         .nargs('w', 1)
         .describe('w', 'the width of the output')
+    .alias('t', 'threshold')
+        .nargs('t', 1)
+        .describe('t', 'the cutoff for detecting lines')
+    .alias('c', 'color')
+        .nargs('c', 1)
+        .describe('c', 'the color for drawing lines')
+    .alias('s', 'stipple')
+        .boolean('s')
+        .describe('s', 'use stippling')
+    .alias('B', 'background')
+        .boolean('B')
+        .describe('B', 'render using background colors')
+    .alias('l', 'blended')
+        .boolean('l')
+        .describe('l', 'combine lineart, stipple and background color to preserve detail')
+    .alias('m', 'mode')
+        .nargs('m', 1)
+        .describe('m', 'what type of imagery to create')
+        .choices('m', ['image', 'lineArt', 'stipple', 'posterized'])
     .alias('d', 'difference')
         .nargs('d', 1)
         .choices('d', Object.keys(Color.distances))
@@ -37,6 +56,12 @@ var target = argv._.pop();
 var options = {
     'alphabet' : argv.a,
     'width' : argv.w,
+    'verb' : argv.m,
+    'color' : argv.c,
+    'threshold' : argv.t,
+    'stipple' : (argv.s || argv.m === 'stipple'),
+    'background' : argv.B,
+    'blended' : argv.l,
     'colorMatching' : argv.d,
     '4bit' : argv.b === 4,
     '8bit' : argv.b === 8,

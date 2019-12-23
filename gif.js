@@ -46,25 +46,28 @@ AnsiGif.prototype.load = function(progress, complete){
         progress(1,2);
         var count = 0;
         var last;
+        var first;
         var height;
         var width;
         asynk.eachOfLimit(this.frames, 1, function(frame, index, done){
             if(!height) height = frame.height;
             if(!width) width = frame.width;
-            var last
             var image = new Image({
                 width : ob.options.width || 80,
                 alphabet : ob.options.alphabet || 'variant4',
+                background : ob.options.background,
+                threshold : ob.options.threshold,
+                stroke : ob.options.color,
+                stipple : ob.options.stipple,
+                blended : ob.options.blended,
                 loader : function(image, setAspectRatio, Canvas, Image){
                     setAspectRatio(height/width);
                     if(frame.x || frame.y){
                         var canvas = new Canvas(height, width);
                         var context = canvas.getContext('2d');
-                        if(last){
-                            context.putImageData(
-                                last, 0, 0
-                            );
-                        }
+                        if(first) context.putImageData(
+                            first.getImageData(0,0,width, height), 0, 0
+                        );
                         var imageData = context.getImageData(
                             (frame.x || 0),
                             (frame.y || 0),
@@ -75,9 +78,15 @@ AnsiGif.prototype.load = function(progress, complete){
                         var len = frame.width * frame.height;
                         var offset;
                         var pixset;
+                        var px;
                         for (var i=0; i < len;i += 4) {
                             offset = i * 4;
                             pixset = i * 3;
+                            px = [
+                                frame.pixels.readUInt8(pixset),
+                                data[offset+1] = frame.pixels.readUInt8(pixset+1),
+                                data[offset+2] = frame.pixels.readUInt8(pixset+2)
+                            ]
                             data[offset] = frame.pixels.readUInt8(pixset);
                             data[offset+1] = frame.pixels.readUInt8(pixset+1);
                             data[offset+2] = frame.pixels.readUInt8(pixset+2);
@@ -88,11 +97,15 @@ AnsiGif.prototype.load = function(progress, complete){
                             (frame.x || 0),
                             (frame.y || 0)
                         );
-                        last = imageData;
+                        last = context;
+                        if(!first) first = context;
                         return {context, canvas};
                     }else{
                         var canvas = new Canvas(frame.width, frame.height);
                         var context = canvas.getContext('2d');
+                        if(first) context.putImageData(
+                            first.getImageData(0,0,width, height), 0, 0
+                        );
                         var dataContext = context.getImageData(0,0,frame.width, frame.height);
                         var imageData = dataContext.data;
                         var len = frame.width * frame.height;
@@ -106,13 +119,20 @@ AnsiGif.prototype.load = function(progress, complete){
                             imageData[offset+2] = frame.pixels.readUInt8(pixset+2);
                             imageData[offset+3] = 255;
                         }
-                        last = dataContext;
+                        last = context;
+                        if(!first) first = context;
                         context.putImageData(dataContext, 0, 0);
                         return {context, canvas};
                     }
                 }
             });
-            image.write(function(err, image, context2d){
+            var verb = 'write'+(
+                (ob.options.verb && ob.options.verb !== 'image')?
+                ob.options.verb[0].toUpperCase()+ob.options.verb.substring(1):
+                ''
+            );
+            //console.log(verb);
+            image[verb](function(err, image, context2d){
                 last = context2d;
                 if(err) return console.log(err);
                 renderedFrames[index] = image;
