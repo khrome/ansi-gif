@@ -52,13 +52,25 @@ AnsiGif.prototype.load = function(progress, complete){
         asynk.eachOfLimit(this.frames, 1, function(frame, index, done){
             if(!height) height = frame.height;
             if(!width) width = frame.width;
+            if(ob.options.blended && (ob.options.stipple || ob.options.lineart)){
+                ob.options.verb = 'posterized';
+            }
+            var defaultWidth = 80;
+            if(
+                process &&
+                process.stdout &&
+                process.stdout.columns
+            ){
+                defaultWidth = process.stdout.columns;
+            }
             var image = new Image({
-                width : ob.options.width || 80,
+                width : ob.options.width || defaultWidth,
                 alphabet : ob.options.alphabet || 'variant4',
                 background : ob.options.background,
                 threshold : ob.options.threshold,
                 stroke : ob.options.color,
-                stipple : ob.options.stipple,
+                stippled : ob.options.stipple && '#FFFFFF',
+                lineart : ob.options.stipple && '#000000',
                 blended : ob.options.blended,
                 loader : function(image, setAspectRatio, Canvas, Image){
                     setAspectRatio(height/width);

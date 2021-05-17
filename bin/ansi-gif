@@ -23,6 +23,9 @@ yargs.demand(1)
     .alias('w', 'width')
         .nargs('w', 1)
         .describe('w', 'the width of the output')
+    .alias('F', 'fullscreen')
+        .boolean('F')
+        .describe('F', 'output to the width of the console')
     .alias('t', 'threshold')
         .nargs('t', 1)
         .describe('t', 'the cutoff for detecting lines')
@@ -68,6 +71,14 @@ var options = {
     '32bit' : argv.b === 32,
     'file' : target
 };
+if(
+    process &&
+    process.stdout &&
+    process.stdout.columns &&
+    argv.F
+){
+    options.width = process.stdout.columns;
+}
 var gauge = new Gauge()
 var gif = new Gif(options);
 gauge.show('Loading... ', 0.1)
