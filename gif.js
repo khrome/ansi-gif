@@ -163,20 +163,43 @@ AnsiGif.prototype.load = function(progress, complete){
     }));
 }
 
-AnsiGif.prototype.play = function(){
+AnsiGif.prototype.play = function(opts){
+    var options = opts || {};
     //todo: check load
     var numLines = this.rendered[0]?this.rendered[0].split("\n").length:0;
     var frameNum = 0;
     var first = true;
-    var ob = this
+    this.running = true;
+    var ob = this;
+    var timing = this.options.timing || 100;
     //todo: play based on gif config
-    setInterval(function(){
-        ob.rendered[frameNum]?ob.rendered[frameNum].split("\n").length:0;
-        if(first) first = false;
-        else console.log('\033['+(numLines+1)+'Am');
+    var handler = function(){
+        if(!ob.running){
+            console.log('STOPPED');
+            return;
+        }
+        //do not reset numlines, as many frames are partial draws
+        //ob.rendered[frameNum]?ob.rendered[frameNum].split("\n").length:0;
+        if(first){
+            first = false;
+        }else console.log('\033['+(numLines+1)+'Am'); //investigate if this is working as intended
         console.log(ob.rendered[frameNum]+'\033[0m');
         frameNum = (frameNum + 1) % ob.frames.length;
-    }, 100);
+        if(frameNum === 0 && options.doNotLoop){
+            ob.running = false;
+            if(options.callback) setTimeout(function(){
+                options.callback(function(){
+                    console.log('\033['+(numLines+1)+'Am');
+                });
+            }, 0)
+        }
+        if(ob.running) setTimeout(handler, timing)
+    };
+    setTimeout(handler, timing);
+}
+
+AnsiGif.prototype.stop = function(){
+    this.running = false;
 }
 
 module.exports = AnsiGif;

@@ -1,6 +1,6 @@
 {
   "name": "ansi-gif",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "homepage": "https://github.com/khrome/ansi-gif",
   "main": "gif.js",
   "description": "View animated, color GIFs in your terminal",
