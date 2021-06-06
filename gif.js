@@ -175,7 +175,6 @@ AnsiGif.prototype.play = function(opts){
     //todo: play based on gif config
     var handler = function(){
         if(!ob.running){
-            console.log('STOPPED');
             return;
         }
         //do not reset numlines, as many frames are partial draws
